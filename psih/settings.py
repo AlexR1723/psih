@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'psih.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dc868eiapdeqna',
+        'USER': 'gswqibenmlgxel',
+        'PASSWORD': 'e7d15b736244c4e5cf856904102a60d1f9076778b4332b81634c006a58b204ee',
+        'HOST': 'ec2-79-125-26-232.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 

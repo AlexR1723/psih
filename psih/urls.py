@@ -24,4 +24,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'', include('Main.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-handler404 = 'Main.views.error404'
+# handler404 = 'Main.views.error404'
