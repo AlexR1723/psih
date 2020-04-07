@@ -1,1 +1,1 @@
-web:gunicorn psih.wsgi --log-file -
+web: gunicorn psih.wsgi --log-file -
