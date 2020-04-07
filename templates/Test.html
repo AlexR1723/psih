@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <div class="row justify-content-center align-items-center">
+        <div class="col-xl-8">
+            <div class="row justify-content-center">
+                <div class="col-12 p-0 mb-5">
+                    <p class="quest1" id="id_questions"></p>
+                </div>
+                <div class="col-12 p-0 text-center align-items-center" id="id_answers">
+                    <button class="ans1" data-res="" >answer 1</button>
+                </div>
+            </div>
+            <div class="row align-items-center mt-5" style="position: relative">
+                <div class="timeline"></div>
+                <div class="col-xl-10 " id="div_timer">
+                    <div class="row">
+                        <div class="col-6 text-left">Вопрос 1 из 33</div>
+                        <div class="col-6 text-right">Часть 1</div>
+                    </div>
+                </div>
+                <div class="col-xl-2">
+                    <p class="" id="ptimer">00:00</p>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+{% endblock %}
