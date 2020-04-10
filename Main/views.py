@@ -31,11 +31,11 @@ def get_level_1(request):
         dic_first={}
         dic_first['text']=answers.filter(quest_id=i.id)[0].text
         dic_first['area']=answers.filter(quest_id=i.id)[0].area.id
-        # dic_first['check']=answers.filter(quest_id=i.id)[0].is_check
+        dic_first['check']=answers.filter(quest_id=i.id)[0].quest.id
         dic_second = {}
         dic_second['text'] = answers.filter(quest_id=i.id)[1].text
         dic_second['area'] = answers.filter(quest_id=i.id)[1].area.id
-        # dic_second['check'] = answers.filter(quest_id=i.id)[1].is_check
+        dic_second['check'] = answers.filter(quest_id=i.id)[1].quest.id
         dic_fs={}
         dic_fs['first']=dic_first
         dic_fs['second']=dic_second
@@ -46,6 +46,11 @@ def get_level_1(request):
 
 
 def get_level_2(request):
+    answers=request.GET.get('answers')
+    size=request.GET.get('gg')
+    print('answers')
+    print(answers)
+    print(size)
     return HttpResponse(json.dumps(True))
 
 

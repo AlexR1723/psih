@@ -72,11 +72,14 @@ p {
     padding: 7px 0;
 }
 
-.timeline {
+#timeline {
     background-color: rgb(68, 68, 68);
     width: 50%;
     position: absolute;
     height: 44px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+
 }
 
 #ptimer {
