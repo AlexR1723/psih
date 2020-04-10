@@ -78,6 +78,20 @@ class QuestionLevel3(models.Model):
         verbose_name_plural = 'Вопросы ур.3'
 
 
+class Conclusions(models.Model):
+    text = models.TextField(blank=True, null=True, verbose_name='Текст')
+    first_area = models.ForeignKey('Areas', models.DO_NOTHING, db_column='first_area', blank=True, null=True,
+                                   verbose_name='Первая сфера', related_name='first_area')
+    second_area = models.ForeignKey('Areas', models.DO_NOTHING, db_column='second_area', blank=True, null=True,
+                                    verbose_name='Вторая сфера', related_name='second_area')
+
+    class Meta:
+        managed = False
+        db_table = 'conclusions'
+        verbose_name = 'Вывод'
+        verbose_name_plural = 'Выводы'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 

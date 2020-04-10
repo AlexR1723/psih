@@ -55,3 +55,13 @@ class QuestionLevel3Admin(admin.ModelAdmin):
 
 
 admin.site.register(QuestionLevel3, QuestionLevel3Admin)
+
+
+class ConclusionsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Conclusions._meta.fields]
+
+    class Meta:
+        model = Conclusions
+
+
+admin.site.register(Conclusions, ConclusionsAdmin)
