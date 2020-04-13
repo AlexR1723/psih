@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'get_level_1', views.get_level_1, name="get_level_1"),
     url(r'get_level_2', views.get_level_2, name="get_level_2"),
     url(r'get_level_3', views.get_level_3, name="get_level_3"),
+    url(r'get_result', views.get_result, name="get_result"),
     # url(r'change_address', views.change_address, name="change_address"),
 ]

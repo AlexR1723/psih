@@ -92,6 +92,17 @@ class Conclusions(models.Model):
         verbose_name_plural = 'Выводы'
 
 
+class CheckTable(models.Model):
+    date = models.DateTimeField(blank=True, null=True, verbose_name='Дата')
+    count = models.IntegerField(blank=True, null=True, verbose_name='Количество сфер')
+
+    class Meta:
+        managed = False
+        db_table = 'check_table'
+        verbose_name = 'Error'
+        verbose_name_plural = 'Errors'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 

@@ -74,7 +74,7 @@ p {
 
 #timeline {
     background-color: rgb(68, 68, 68);
-    width: 50%;
+    width: 0px;
     position: absolute;
     height: 44px;
     border-bottom-left-radius: 5px;

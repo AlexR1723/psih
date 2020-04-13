@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import *
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core.files.storage import FileSystemStorage
-import json, re, hashlib, random, timeit
+import json, re, hashlib, random, timeit, datetime
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout, hashers
 from django.core.validators import validate_email
@@ -22,45 +22,42 @@ def Start_test(request):
     return render(request, 'Test.html', locals())
 
 
-def select_bd(request):
-    quests = QuestionLevel1.objects.all()
-    answers = AnswerLevel1.objects.all()
-    return True
+def get_dict(dct, quest):
+    for i in dct:
+        if quest == i['quest_id']:
+            area = i['area_id']
+            text = i['text']
+            dct.remove(i)
+            return area, text
+    return False
 
 
 def get_level_1(request):
-    # print(timeit.timeit(stmt='quests = QuestionLevel1.objects.all()',setup='from .models import QuestionLevel1',number=1))
-    quests = QuestionLevel1.objects.select_related()
-    answers = AnswerLevel1.objects.select_related()
-    # print(str(quests.query))
-
-    # answers = AnswerLevel1.objects.all()
-    # print(timeit.timeit(stmt="""
+    quests = list(QuestionLevel1.objects.values())
+    answers = list(AnswerLevel1.objects.values())
     res = []
     for i in quests:
         dic = {}
-        dic['quest'] = i.text
+        dic['quest'] = i['text']
         l = [0, 1]
         random.shuffle(l)
         dic_first = {}
-        dic_first['text'] = answers.filter(quest_id=i.id)[l[0]].text
-        dic_first['area'] = answers.filter(quest_id=i.id)[l[0]].area.id
-        dic_first['check'] = answers.filter(quest_id=i.id)[l[0]].quest.id
+        dic_first['check'] = i['id']
+        dic_first['area'], dic_first['text'] = get_dict(answers, i['id'])
         dic_second = {}
-        dic_second['text'] = answers.filter(quest_id=i.id)[l[1]].text
-        dic_second['area'] = answers.filter(quest_id=i.id)[l[1]].area.id
-        dic_second['check'] = answers.filter(quest_id=i.id)[l[1]].quest.id
+        dic_second['check'] = i['id']
+        dic_second['area'], dic_second['text'] = get_dict(answers, i['id'])
         dic_fs = {}
         dic_fs['first'] = dic_first
         dic_fs['second'] = dic_second
         dic['answers'] = dic_fs
         res.append(dic)
     random.shuffle(res)
-    # """,number=1))
     return HttpResponse(json.dumps(res))
 
 
 def get_level_2(request):
+    print('level 2')
     answers = json.loads(request.GET.get('answers'))
 
     dic = {}
@@ -117,24 +114,15 @@ def get_level_2(request):
                 res_quest.append(j[i])
             else:
                 continue
-
-    # for i in res_quest:
-    #     print(i)
-    # print(len(res_quest))
-    # qst=
-    # qst_arr=qst.split('#')
-    # cat_id=6
-    # print(qst_arr)
-    # for i in qst_arr:
-    #     qs=QuestionLevel2(text=i,area_id=cat_id)
-    #     # qs.save()
-    #     print(qs)
+    # print('res_quest')
+    # print(res_quest)
     return HttpResponse(json.dumps(res_quest))
 
 
 def get_level_3(request):
+    # print('level 3')
     answers = json.loads(request.GET.get('answers'))
-    print(answers)
+    # print(answers)
     dic = {}
     for i in answers:
         if i[1] == 0:
@@ -150,45 +138,100 @@ def get_level_3(request):
                 dic[quest] = 1
             else:
                 dic[quest] = 0
-    print(dic)
+    # print('dic')
+    # print(dic)
 
     # dic = {1: 0, 3: 10, 5: 10,6:10, 7:9}
 
     lst_dic = list(dic.values())
     lst_dic.sort(reverse=True)
-    print('lst_dic')
-    print(lst_dic)
+    # print('lst_dic')
+    # print(lst_dic)
 
-    result=[]
+    result = []
     for key, value in dic.items():
         if value == lst_dic[0]:
             result.append(key)
 
-    if lst_dic.count(lst_dic[0])>1:
+    if len(result) == 1:
+        conclusion = get_conclusion(result[0])
+        return HttpResponse(json.dumps([True, conclusion]))
+    else:
+        quests = list(QuestionLevel3.objects.filter(area_id__in=result).values('area_id', 'text'))
+        list_quest_3 = []
+        for i in range(len(result)):
+            list_quest_3.append([])
+        for i in quests:
+            list_quest_3[result.index(i['area_id'])].append(i)
+        min_cat = 0
+        for i in list_quest_3:
+            if len(i) > min_cat:
+                min_cat = len(i)
+        res_quest = []
+        for i in range(min_cat):
+            for j in list_quest_3:
+                if j[i]:
+                    res_quest.append(j[i])
+                else:
+                    continue
+        # print('res_quest 3')
+        # print(res_quest)
+        return HttpResponse(json.dumps(res_quest))
+
+
+def get_result(request):
+    # print('level 3')
+    answers = json.loads(request.GET.get('answers'))
+    # print(answers)
+    dic = {}
+    for i in answers:
+        if i[1] == 0:
+            answer = False
+        else:
+            answer = True
+        quest = i[0]
+        if dic.get(quest):
+            if answer:
+                dic[quest] += 1
+        else:
+            if answer:
+                dic[quest] = 1
+            else:
+                dic[quest] = 0
+    # print('dic')
+    # print(dic)
+
+    # dic = {1: 0, 3: 10, 5: 10,6:10, 7:9}
+
+    lst_dic = list(dic.values())
+    lst_dic.sort(reverse=True)
+    # print('lst_dic')
+    # print(lst_dic)
+
+    result = []
+    for key, value in dic.items():
+        if value == lst_dic[0]:
+            result.append(key)
+
+    if len(result) == 1:
+        conclusion = get_conclusion(result[0])
+        # return HttpResponse(json.dumps([True, conclusion]))
+    else:
         conclusion = get_conclusion(result[0], result[1])
         if len(result) > 2:
-            print('gg diplom ne top')
-        print(conclusion)
-    else:
-        conclusion = get_conclusion(result[0])
-        print(conclusion)
-    print(result)
+            shit = CheckTable(date=datetime.datetime.now(), count=len(result))
+            shit.save()
+    return HttpResponse(json.dumps(conclusion))
 
-    # qst='Я решительный.#Я легко поддерживаю разговор на любую тему.#Я ответственный человек.#В будущем я хотел бы иметь много связей.'
-    # qst_arr=qst.split('#')
-    # cat_id=6
-    # print(qst_arr)
-    # for i in qst_arr:
-    #     qs=QuestionLevel3(text=i,area_id=cat_id)
-    #     # qs.save()
-    #     print(qs)
-    return HttpResponse(json.dumps(True))
 
-def get_conclusion(first,second=False):
+def get_conclusion(first, second=False):
+    # print(first)
+    # print(second)
     if second:
         # qr=Q()
-        conc=Conclusions.objects.filter(Q(first_area=first)|Q(second_area=first),Q(first_area=second)|Q(second_area=second))[0].text
+        conc = Conclusions.objects.filter(Q(first_area=first) | Q(second_area=first),
+                                          Q(first_area=second) | Q(second_area=second))[0].text
         # print(conc)
     else:
-        conc=Conclusions.objects.filter(first_area=first)[0].text
+        conc = Conclusions.objects.filter(first_area=first)[0].text
     return conc
