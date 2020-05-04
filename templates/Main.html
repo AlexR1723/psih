@@ -1,19 +1,31 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
+    <input type="hidden" id="pagename" value="{{ page_name }}">
     <div class="row justify-content-center align-items-center">
-        <div class="col-xl-8">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <p class="head1">ТЕСТ НА ОПРЕДЕЛЕНИЕ ПРОФОРИЕНТАЦИИ</p>
+        <div class="col-12 col-sm-11 col-md-11 col-lg-11 col-xl-10">
+            <div class="row justify-content-start">
+                <p class="head1">ТЕСТ НА ОПРЕДЕЛЕНИЕ ПРОФОРИЕНТАЦИИ</p>
+                <div class="col-12 col-md-10 col-lg-9 col-xl-8">
+
+                    <p class="text1">Порой даже у взрослого человека может появиться желание начать новую жизнь и
+                        поменять профессию. В связи с этим возникает вопрос: в какой сфере себя лучше реализовать? А что
+                        говорить о молодых людях, которые после школы начинают выбирать, с какой профессией связать свою
+                        жизнь. Данная методика, на основе метода Йовайши, позволит установить роль тех или иных мотивов
+                        при выборе профессии.
+                        <br>В тесте предлагаются вопросы и варианты ответов. Вам следует выбрать те
+                        вариаты ответов, которые подходят Вам больше всего.</p>
                 </div>
-                <div class="col-12 text-center">
+                <div class="col-12 text-center p-0">
                     <a href="{% url 'Start_test' %}">
-                        <button>Начать тест</button>
+                        <button class="main_button" id="start_test">Начать тест</button>
                     </a>
                 </div>
             </div>
         </div>
+        <img src="../static/image/risunok_melom_osnovnoy.png" alt="" style="display: none;width: 20%" id="mel">
+        <img src="../static/image/kem_byt1.png" alt="" style="display: none;width: 10%" id="oblako">
+        <img src="../static/image/devushka_obrez.png" alt="" style="display: none;width: 10%" id="baba">
     </div>
 
 

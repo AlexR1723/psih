@@ -1,8 +1,32 @@
 body {
-    background-image: url("../image/background.png");
+    /*background-image: url("../image/background.png");*/
+    background-image: url("../image/bg.jpg");
     background-repeat: no-repeat;
     background-size: auto;
+    font-family: shift;
 }
+
+@font-face {
+    font-family: "shift";
+    src: url("../css/fonts/a_avantecpslcbrk-bold_allfont_ru.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "shift";
+    src: url("../css/fonts/a_avantecpslcbrk-light_uk_allfont_net.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "shift";
+    src: url("../css/fonts/ds-note_allfont_ru.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+}
+
 
 .row {
     margin: 0;
@@ -14,10 +38,35 @@ p {
 
 .head1 {
     color: white;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 25px;
     text-align: center;
-    margin: 20px 0;
+    /*margin: 20px 0;*/
+    margin: 30px 0px;
+    width: 100%;
+}
+
+.text1 {
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
+}
+
+.main_button {
+    margin: 25px 0px;
+    padding: 5px 50px;
+    color: white;
+    background-color: rgba(0, 0, 0, .5);
+    /*border: 1px solid rgba(0, 0, 0, .5);*/
+    border: none;
+    border-radius: 7px;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.main_button:hover {
+    background-color: rgba(0, 0, 0, .7);
 }
 
 .ans1 {
@@ -26,7 +75,8 @@ p {
     font-size: 20px;
     text-align: left;
     font-weight: 500;
-    background-color: rgb(73, 73, 73);
+    /*background-color: rgb(73, 73, 73);*/
+    background-color: rgba(0, 0, 0, .5);
     margin: 3px 0;
     width: 100%;
     border: 1px solid rgb(60, 60, 60);
@@ -35,8 +85,9 @@ p {
 
 .ans1:hover {
     transition: .5s;
-    background-color: rgb(100, 100, 100);
+    /*background-color: rgb(100, 100, 100);*/
     /*font-size: 23px;*/
+    background-color: rgba(0, 0, 0, .7);
 }
 
 .quest1 {
@@ -46,12 +97,14 @@ p {
     text-align: left;
     font-weight: 700;
 }
-.ans_checkbox{
+
+.ans_checkbox {
     width: 20px;
     height: 20px;
     /*background-color: white;*/
 }
-.divcheckbox{
+
+.divcheckbox {
     text-align: left;
     padding: 10px 15px;
     color: white;
@@ -92,8 +145,9 @@ p {
 }
 
 button:active, button:focus {
-  outline: none;
+    outline: none;
 }
+
 /*html {*/
 /*    scroll-behavior: smooth;*/
 /*}*/

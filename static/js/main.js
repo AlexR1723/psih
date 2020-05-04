@@ -23,7 +23,7 @@ window.onload = function () {
                 // document.getElementById('level_number').innerText='Часть '+global_level
                 // count_questions[1] = data.length
                 // console.time('set_quest')
-                next_level(1,data)
+                next_level(1, data)
 
                 // console.timeEnd('set_quest')
                 // console.time('secundomer')
@@ -36,6 +36,53 @@ window.onload = function () {
         })
         // console.timeEnd('start')
     }
+    if (document.getElementById('pagename')) {
+        let body = document.getElementsByTagName('body')[0]
+        body.style.height = 100 + 'vh'
+        // let body_height=body.getBoundingClientRect().height
+        let el = document.getElementById('pagename').value
+        if (el == 'Main') {
+
+            // let mel_pos=mel.getBoundingClientRect()
+            // mel.style.bottom=body_height-mel_pos.height-mel_pos.y
+            // mel.style.display='block'
+            // mel.style.position='absolute'
+            // mel.style.bottom=5+'%'
+            // mel.style.left=5+'%'
+            let mel = document.getElementById('mel')
+            let baba = document.getElementById('baba')
+            let obl = document.getElementById('oblako')
+            if (window.innerWidth > 768) {
+                // let mel = document.getElementById('mel')
+                mel.style = 'display:block; position:absolute; left:5%; bottom:5%; width:20%'
+                // let baba = document.getElementById('baba')
+                baba.style = 'display:block; position:absolute; right:10%; bottom:0px; width:27%'
+                // let obl = document.getElementById('oblako')
+                let baba_height = baba.getBoundingClientRect().height + 'px'
+                let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
+                obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:10%'
+            }
+        // else {
+                // let baba = document.getElementById('baba')
+                // baba.style = 'display:block; position:absolute; right:10%; bottom:0px; width:35%'
+                // let obl = document.getElementById('oblako')
+                // let baba_height = baba.getBoundingClientRect().height + 'px'
+                // let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
+                // obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:15%'
+            // }
+            // let babh=baba.getBoundingClientRect()
+            // if (document.getElementById('start_test').getBoundingClientRect().bottom > babh.x+babh.height/2.5) {
+            //     body.style.height = window.innerHeight+babh.height*0.4 + 'px'
+            //     let sd=window.innerHeight-body.getBoundingClientRect().height
+            //     baba.style = 'display:block; position:absolute; right:10%; bottom:'+sd+'px; width:35%'
+            //     let baba_height = baba.getBoundingClientRect().height+sd + 'px'
+            //     let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
+            //     obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:15%'
+            // }
+            // document.getElementById('start_test').innerHTML=window.innerWidth+'  '+window.innerHeight
+        }
+    }
+
 }
 
 // $('.ans1').on('click', 'button', function () {
@@ -45,7 +92,7 @@ window.onload = function () {
 //     }
 // })
 
-async function next_level(level,data) {
+async function next_level(level, data) {
     global_level = level
     document.getElementById('level_number').innerText = 'Часть ' + global_level
     count_questions[level] = data.length
@@ -70,7 +117,7 @@ function get_answer(value, check) {
                 success: function (data) {
                     if (data != false) {
                         quest_level_2 = data
-                        next_level(2,data)
+                        next_level(2, data)
                     } else {
                         alert('невнимательно')
                     }
@@ -102,7 +149,7 @@ function get_answer(value, check) {
                         show_result(data[1])
                     } else {
                         quest_level_3 = data
-                        next_level(3,data)
+                        next_level(3, data)
                     }
                 },
                 error: function (data) {
@@ -151,10 +198,9 @@ function get_answer(value, check) {
 function show_result(text) {
     document.getElementById('div_block_timer').remove()
     document.getElementById('id_answers').remove()
-    document.getElementById('id_questions').innerText=text
-    document.getElementById('div_result').style.display='flex'
-    stop_timer=true
-
+    document.getElementById('id_questions').innerText = text
+    document.getElementById('div_result').style.display = 'flex'
+    stop_timer = true
 
 
 }
@@ -204,11 +250,6 @@ function set_quest(number, questions) {
     timeline.style.width = tlw + 'px'
 
 }
-
-// function set_quest2(level, number, questions) {
-//
-// }
-
 
 var min = 0;
 var sec = 0;

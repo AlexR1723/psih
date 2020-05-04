@@ -15,6 +15,7 @@ from django.conf import settings
 
 
 def Main(request):
+    page_name='Main'
     return render(request, 'Main.html', locals())
 
 
@@ -22,14 +23,12 @@ def Start_test(request):
     return render(request, 'Test.html', locals())
 
 
-def get_dict(dct, quest):
+def get_dict(dct, quest, num):
+    res = []
     for i in dct:
         if quest == i['quest_id']:
-            area = i['area_id']
-            text = i['text']
-            dct.remove(i)
-            return area, text
-    return False
+            res.append(i)
+    return res[num]['area_id'], res[num]['text']
 
 
 def get_level_1(request):
@@ -43,10 +42,10 @@ def get_level_1(request):
         random.shuffle(l)
         dic_first = {}
         dic_first['check'] = i['id']
-        dic_first['area'], dic_first['text'] = get_dict(answers, i['id'])
+        dic_first['area'], dic_first['text'] = get_dict(answers, i['id'], l[0])
         dic_second = {}
         dic_second['check'] = i['id']
-        dic_second['area'], dic_second['text'] = get_dict(answers, i['id'])
+        dic_second['area'], dic_second['text'] = get_dict(answers, i['id'], l[1])
         dic_fs = {}
         dic_fs['first'] = dic_first
         dic_fs['second'] = dic_second

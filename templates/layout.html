@@ -15,11 +15,15 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
 </head>
-<body style="margin-top: 10%">
+<body>
 
-{% block content %}
+{#<div class="row justify-content-center align-items-center">#}
+{#    <div class="col-xl-8">#}
+        {% block content %}
 
-{% endblock %}
+        {% endblock %}
+{#    </div>#}
+{#</div>#}
 
 <script src="https://kit.fontawesome.com/2c9fd467ea.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
