@@ -28,6 +28,7 @@ window.onload = function () {
                 // console.timeEnd('set_quest')
                 // console.time('secundomer')
                 secundomer()
+                document.getElementById('div_block_timer').style='position: relative;display:flex'
                 // console.timeEnd('secundomer')
             },
             error: function (data) {
@@ -98,6 +99,7 @@ async function next_level(level, data) {
     count_questions[level] = data.length
     quest_number = 0
     document.getElementById('timeline').style.width = 0 + 'px'
+    document.getElementById('timeline').style.height = 0 + 'px'
     set_quest(0, data)
 }
 
@@ -119,7 +121,8 @@ function get_answer(value, check) {
                         quest_level_2 = data
                         next_level(2, data)
                     } else {
-                        alert('невнимательно')
+                        show_result('К сожалению Вы проходили тест не внимательно. Отдохните и попробуйте повторить попытку через 7 минут',true)
+                        // alert('невнимательно')
                     }
                 },
                 error: function (data) {
@@ -195,12 +198,20 @@ function get_answer(value, check) {
     }
 }
 
-function show_result(text) {
+function show_result(text,is_fail=false) {
     document.getElementById('div_block_timer').remove()
-    document.getElementById('id_answers').remove()
-    document.getElementById('id_questions').innerText = text
+    document.getElementById('div_block_quest').remove()
+    document.getElementById('id_result').innerText = text
     document.getElementById('div_result').style.display = 'flex'
     stop_timer = true
+    if(is_fail){
+
+        document.getElementById('save_result').style.display='none'
+        document.getElementById('label_result').innerText='Тест не пройден :('
+    }
+    else {
+        document.getElementById('save_result').style.display='inline-block'
+    }
 
 
 }
@@ -248,6 +259,7 @@ function set_quest(number, questions) {
     let div_timer = document.getElementById('div_timer')
     let tlw = div_timer.offsetWidth / count_questions[global_level] * (quest_number + 1)
     timeline.style.width = tlw + 'px'
+    timeline.style.height = document.getElementById('div_timer').getBoundingClientRect().height + 'px'
 
 }
 

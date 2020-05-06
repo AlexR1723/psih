@@ -2,31 +2,45 @@
 {% load static %}
 {% block content %}
     <div class="row justify-content-center align-items-center">
-        <div class="col-xl-8">
-            <div class="row justify-content-center">
-                <div class="col-12 p-0 mb-5">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-11 col-xl-10">
+            <div class="row justify-content-center" style="margin-top: 10%" id="div_block_quest">
+                <div class="col-12 p-0 mb-3 mb-sm-5">
                     <p class="quest1" id="id_questions"></p>
                 </div>
                 <div class="col-12 p-0 text-center align-items-center" id="id_answers">
-{#                    <button class="ans1" data-res="">answer 1</button>#}
+                    {#                    <button class="ans1" data-res="">answer 1</button>#}
                 </div>
             </div>
-            <div class="row align-items-center mt-5" style="position: relative" id="div_block_timer">
+            <div class="row align-items-center mt-3 mt-sm-5" style="position: relative;display:none"
+                 id="div_block_timer">
                 <div id="timeline"></div>
-                <div class="col-xl-10 " id="div_timer">
-                    <div class="row">
-                        <div class="col-6 text-left" id="quest_counter"></div>
-                        <div class="col-6 text-right" id="level_number"></div>
+                <div class="col-8 col-sm-10 col-md-10 col-lg-10 col-xl-10" id="div_timer">
+                    <div class="row justify-content-between">
+                        <div class="px-2" id="quest_counter"></div>
+                        <div class="px-2" id="level_number"></div>
                     </div>
                 </div>
-                <div class="col-xl-2">
+                <div class="col-4 col-sm-2 col-md-2 col-lg-2 col-xl-2 pr-0">
                     <p class="" id="ptimer">00:00</p>
                 </div>
             </div>
             <div class="row justify-content-center align-items-center" id="div_result" style="display: none">
-                <div class="col-xl-10" >
-                    <a href="{% url 'Start_test' %}"><button> начать заново</button></a>
-                    <button> печать</button>
+                <div class="col-12 p-0 mb-3 mb-sm-5">
+                    <p class="quest1 my-5 text-center" style="font-size: 40px" id="label_result">Результат</p>
+                    <p class="quest1" id="id_result">
+
+                        Результаты теста показали, что вы близки к сфере материальных интересов. Люди этого направления
+                        обычно проявляют склонность к работе, связанной с обработкой и систематизацией информации,
+                        представленные в виде условных знаков, цифр, форм, текстов (ведение документации, установление
+                        количественных отношений). (Экономист, секретарь, бухгалтер, редактор, переводчик, лингвист,
+                        топограф).
+                    </p>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="{% url 'Start_test' %}">
+                        <button class="main_button mt-0">Начать заново</button>
+                    </a>
+                    <button class="main_button mt-0" id="save_result">Сохранить</button>
                 </div>
             </div>
 
