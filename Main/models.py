@@ -103,6 +103,14 @@ class CheckTable(models.Model):
         verbose_name_plural = 'Errors'
 
 
+class Results(models.Model):
+    file = models.FileField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'results'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 

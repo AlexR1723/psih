@@ -24,7 +24,8 @@
                     <p class="" id="ptimer">00:00</p>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center" id="div_result" style="display: none">
+            <div class="row justify-content-center align-items-center" id="div_result"
+                 style="display: none;margin-top: 10%">
                 <div class="col-12 p-0 mb-3 mb-sm-5">
                     <p class="quest1 my-5 text-center" style="font-size: 40px" id="label_result">Результат</p>
                     <p class="quest1" id="id_result">
@@ -40,10 +41,37 @@
                     <a href="{% url 'Start_test' %}">
                         <button class="main_button mt-0">Начать заново</button>
                     </a>
-                    <button class="main_button mt-0" id="save_result">Сохранить</button>
+                    <button class="main_button mt-0" data-toggle="modal" data-target="#modal_save_file">Сохранить
+                    </button>
                 </div>
             </div>
 
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal_save_file" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Введите свои данные</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="border_black" placeholder="Имя" id="user_name">
+                    <input type="text" class="border_black" placeholder="Фамилия" id="user_surname">
+                    <input type="text" class="border_black" placeholder="Отчество" id="user_patr">
+                    {#                    <textarea name="{{ book.slug }}" id="comment_text" rows="5"#}
+                    {#                              class="border_brown text_reg1 w-100 px-2 py-1"></textarea>#}
+                </div>
+                <div class="modal-footer">
+                    <button class="main_button mt-0" id="save_result" data-conc="" data-time="">Сохранить</button>
+                    <button class="main_button mt-0" data-dismiss="modal">Отмена</button>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

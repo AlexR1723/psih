@@ -10,12 +10,14 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from docxtpl import DocxTemplate
 from django.conf import settings
+from uuslug import slugify
+from django.core.files.storage import FileSystemStorage
 
 
 def Main(request):
-    page_name='Main'
+    page_name = 'Main'
     return render(request, 'Main.html', locals())
 
 
@@ -213,14 +215,14 @@ def get_result(request):
             result.append(key)
 
     if len(result) == 1:
-        conclusion = get_conclusion(result[0])
+        conclusion, con = get_conclusion(result[0])
         # return HttpResponse(json.dumps([True, conclusion]))
     else:
-        conclusion = get_conclusion(result[0], result[1])
+        conclusion, con = get_conclusion(result[0], result[1])
         if len(result) > 2:
             shit = CheckTable(date=datetime.datetime.now(), count=len(result))
             shit.save()
-    return HttpResponse(json.dumps(conclusion))
+    return HttpResponse(json.dumps([conclusion, con]))
 
 
 def get_conclusion(first, second=False):
@@ -229,8 +231,54 @@ def get_conclusion(first, second=False):
     if second:
         # qr=Q()
         conc = Conclusions.objects.filter(Q(first_area=first) | Q(second_area=first),
-                                          Q(first_area=second) | Q(second_area=second))[0].text
+                                          Q(first_area=second) | Q(second_area=second))[0]
         # print(conc)
     else:
-        conc = Conclusions.objects.filter(first_area=first)[0].text
-    return conc
+        conc = Conclusions.objects.filter(first_area=first)[0]
+
+    return conc.text, conc.id
+
+
+def get_file_result(request):
+    # try:
+    # print('start file')
+    name = str(request.GET.get('name'))
+    surename = str(request.GET.get('surename'))
+    patr = str(request.GET.get('patr'))
+    test_time = str(request.GET.get('time')).split('.')
+    test_time=str(test_time[0])+' минут '+str(test_time[1])+' секунд'
+    conc = int(request.GET.get('conc'))
+    text = Conclusions.objects.get(id=conc).text
+
+    # print(name)
+    # print(surename)
+    # print(patr)
+    # print(test_time)
+    # name = 'Alex'
+    # surename = 'Avdeen'
+    # patr = 'Romanovich'
+    date = datetime.datetime.now()
+    # test_time = '03:21'
+    # text = 'gg gi gi gi'
+    doc = DocxTemplate('Rezultat.docx')
+    context = {
+        'name': name,
+        'surename': surename,
+        'patr': patr,
+        'date': date.strftime('%d.%m.%Y %H:%M:%S'),
+        'test_time': test_time,
+        'text': text
+    }
+    doc.render(context)
+    filename = 'Результат_' + surename + '_' + name + '_' + date.strftime('%d%m%Y_%H%M%S_%f') + '.docx'
+    path = 'media/result_files/'
+    file = path + filename
+    doc.save(file)
+    fs = FileSystemStorage()
+    rl = fs.url(file).replace('/media/media', 'media')
+    link_file = 'http://' + request.get_host() + '/' + rl
+    print(link_file)
+    print('---')
+    return HttpResponse(json.dumps(link_file))
+    # except:
+    #     return HttpResponse(json.dumps(False))

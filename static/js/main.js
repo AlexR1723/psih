@@ -28,7 +28,7 @@ window.onload = function () {
                 // console.timeEnd('set_quest')
                 // console.time('secundomer')
                 secundomer()
-                document.getElementById('div_block_timer').style='position: relative;display:flex'
+                document.getElementById('div_block_timer').style = 'position: relative;display:flex'
                 // console.timeEnd('secundomer')
             },
             error: function (data) {
@@ -63,13 +63,13 @@ window.onload = function () {
                 let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
                 obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:10%'
             }
-        // else {
-                // let baba = document.getElementById('baba')
-                // baba.style = 'display:block; position:absolute; right:10%; bottom:0px; width:35%'
-                // let obl = document.getElementById('oblako')
-                // let baba_height = baba.getBoundingClientRect().height + 'px'
-                // let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
-                // obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:15%'
+            // else {
+            // let baba = document.getElementById('baba')
+            // baba.style = 'display:block; position:absolute; right:10%; bottom:0px; width:35%'
+            // let obl = document.getElementById('oblako')
+            // let baba_height = baba.getBoundingClientRect().height + 'px'
+            // let baba_width = window.innerWidth * 0.15 - baba.getBoundingClientRect().height * 0.3 + 'px'
+            // obl.style = 'display:block; position:absolute; right:' + baba_width + '; bottom:' + baba_height + '; width:15%'
             // }
             // let babh=baba.getBoundingClientRect()
             // if (document.getElementById('start_test').getBoundingClientRect().bottom > babh.x+babh.height/2.5) {
@@ -121,7 +121,7 @@ function get_answer(value, check) {
                         quest_level_2 = data
                         next_level(2, data)
                     } else {
-                        show_result('К сожалению Вы проходили тест не внимательно. Отдохните и попробуйте повторить попытку через 7 минут',true)
+                        show_result('К сожалению Вы проходили тест не внимательно. Отдохните и попробуйте повторить попытку через 7 минут', true)
                         // alert('невнимательно')
                     }
                 },
@@ -181,6 +181,7 @@ function get_answer(value, check) {
                 success: function (data) {
                     if (data) {
                         show_result(data)
+
                     } else {
                         // quest_level_3 = data
                         // next_level(3,data)
@@ -198,20 +199,29 @@ function get_answer(value, check) {
     }
 }
 
-function show_result(text,is_fail=false) {
+function show_result(text, is_fail = false) {
+    stop_timer = true
     document.getElementById('div_block_timer').remove()
     document.getElementById('div_block_quest').remove()
-    document.getElementById('id_result').innerText = text
-    document.getElementById('div_result').style.display = 'flex'
-    stop_timer = true
-    if(is_fail){
 
-        document.getElementById('save_result').style.display='none'
-        document.getElementById('label_result').innerText='Тест не пройден :('
+
+    if (is_fail) {
+        document.getElementById('id_result').innerText = text
+        document.getElementById('save_result').style.display = 'none'
+        document.getElementById('label_result').innerText = 'Тест не пройден :('
+    } else {
+        // if (text.length>1){
+        //
+        // }
+        // else {
+        //
+        // }
+        document.getElementById('id_result').innerText = text[0]
+        document.getElementById('save_result').dataset.conc = text[1]
+        document.getElementById('save_result').dataset.time = min + '.' + sec
+        document.getElementById('save_result').style.display = 'inline-block'
     }
-    else {
-        document.getElementById('save_result').style.display='inline-block'
-    }
+    document.getElementById('div_result').style.display = 'flex'
 
 
 }
@@ -289,4 +299,39 @@ function secundomer() {
     }
 }
 
+
+$('#save_result').click(function () {
+    let name = document.getElementById('user_name').value
+    let surename = document.getElementById('user_surname').value
+    let patr = document.getElementById('user_patr').value
+    let time = this.dataset.time
+    let conc = this.dataset.conc
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        async: true,
+        url: 'get_file_result',
+        data: {
+            name: name,
+            surename: surename,
+            patr: patr,
+            time: time,
+            conc: conc
+        },
+        success: function (data) {
+            let link = document.createElement('a')
+            link.setAttribute('href', data)
+            link.setAttribute('download', '')
+            link.setAttribute('style', 'display:none')
+            link.click()
+            document.getElementById('user_name').innerText=''
+            document.getElementById('user_surname').innerText=''
+            document.getElementById('user_patr').innerText=''
+            $('#modal_save_file').modal('hide')
+        },
+        error: function (data) {
+            alert('error')
+        }
+    })
+})
 
