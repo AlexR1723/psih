@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from .models import *
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.core.files.storage import FileSystemStorage
+# from django.core.files.storage import FileSystemStorage
 import json, re, hashlib, random, timeit, datetime
 from django.db.models import Q
-from django.contrib.auth import authenticate, login, logout, hashers
-from django.core.validators import validate_email
-from django.db import transaction
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth import authenticate, login, logout, hashers
+# from django.core.validators import validate_email
+# from django.db import transaction
+# from django.contrib.auth.models import User
+# from django.urls import reverse
+# from django.contrib.auth.decorators import login_required
 from docxtpl import DocxTemplate
 from django.conf import settings
-from uuslug import slugify
+# from uuslug import slugify
 from django.core.files.storage import FileSystemStorage
 
 
