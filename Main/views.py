@@ -240,45 +240,34 @@ def get_conclusion(first, second=False):
 
 
 def get_file_result(request):
-    # try:
-    # print('start file')
-    name = str(request.GET.get('name'))
-    surename = str(request.GET.get('surename'))
-    patr = str(request.GET.get('patr'))
-    test_time = str(request.GET.get('time')).split('.')
-    test_time=str(test_time[0])+' минут '+str(test_time[1])+' секунд'
-    conc = int(request.GET.get('conc'))
-    text = Conclusions.objects.get(id=conc).text
-
-    # print(name)
-    # print(surename)
-    # print(patr)
-    # print(test_time)
-    # name = 'Alex'
-    # surename = 'Avdeen'
-    # patr = 'Romanovich'
-    date = datetime.datetime.now()
-    # test_time = '03:21'
-    # text = 'gg gi gi gi'
-    doc = DocxTemplate('Rezultat.docx')
-    context = {
-        'name': name,
-        'surename': surename,
-        'patr': patr,
-        'date': date.strftime('%d.%m.%Y %H:%M:%S'),
-        'test_time': test_time,
-        'text': text
-    }
-    doc.render(context)
-    filename = 'Результат_' + surename + '_' + name + '_' + date.strftime('%d%m%Y_%H%M%S_%f') + '.docx'
-    path = 'media/result_files/'
-    file = path + filename
-    doc.save(file)
-    fs = FileSystemStorage()
-    rl = fs.url(file).replace('/media/media', 'media')
-    link_file = 'http://' + request.get_host() + '/' + rl
-    print(link_file)
-    print('---')
-    return HttpResponse(json.dumps(link_file))
-    # except:
-    #     return HttpResponse(json.dumps(False))
+    try:
+        name = str(request.GET.get('name'))
+        surename = str(request.GET.get('surename'))
+        patr = str(request.GET.get('patr'))
+        test_time = str(request.GET.get('time')).split('.')
+        conc = int(request.GET.get('conc'))
+        if len(name) < 2 or len(surename) < 2 or len(patr) < 2 or len(test_time) != 2:
+            return HttpResponse(json.dumps([False, 'Заполните поля!']))
+        test_time = str(test_time[0]) + ' минут ' + str(test_time[1]) + ' секунд'
+        text = Conclusions.objects.get(id=conc).text
+        date = datetime.datetime.now()
+        doc = DocxTemplate('Rezultat.docx')
+        context = {
+            'name': name,
+            'surename': surename,
+            'patr': patr,
+            'date': date.strftime('%d.%m.%Y %H:%M:%S'),
+            'test_time': test_time,
+            'text': text
+        }
+        doc.render(context)
+        filename = 'Результат_' + surename + '_' + name + '_' + date.strftime('%d%m%Y_%H%M%S_%f') + '.docx'
+        path = 'media/result_files/'
+        file = path + filename
+        doc.save(file)
+        fs = FileSystemStorage()
+        rl = fs.url(file).replace('/media/media', 'media')
+        link_file = 'http://' + request.get_host() + '/' + rl
+        return HttpResponse(json.dumps([True, link_file]))
+    except:
+        return HttpResponse(json.dumps([False, 'Произошла ошибка, попробуйте позже!']))

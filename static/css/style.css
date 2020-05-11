@@ -126,14 +126,16 @@ p {
 
 #div_timer {
     border-radius: 5px;
-    border: 3px solid rgb(59, 59, 59);
+    border: 2px solid rgb(60,60,60);
+    /*border: 2px solid rgb(0,0,0);*/
     color: white;
     padding: 7px 0;
     font-weight: 500;
 }
 
 #timeline {
-    background-color: rgb(68, 68, 68);
+    /*background-color: rgb(68, 68, 68);*/
+    background-color: rgba(0,0,0,.5);
     width: 0px;
     position: absolute;
     height: 44px;
@@ -144,8 +146,10 @@ p {
 
 #ptimer {
     border-radius: 5px;
-    border: 3px solid rgb(68, 68, 68);
-    background-color: rgb(68, 68, 68);
+    border: 2px solid rgb(60,60,60);
+    /*background-color: rgb(68, 68, 68);*/
+    /*border: 2px solid rgb(0,0,0);*/
+    background-color: rgba(0,0,0,.5);
     color: white;
     padding: 7px 0;
     text-align: center;

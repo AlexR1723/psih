@@ -319,15 +319,22 @@ $('#save_result').click(function () {
             conc: conc
         },
         success: function (data) {
-            let link = document.createElement('a')
-            link.setAttribute('href', data)
-            link.setAttribute('download', '')
-            link.setAttribute('style', 'display:none')
-            link.click()
-            document.getElementById('user_name').innerText=''
-            document.getElementById('user_surname').innerText=''
-            document.getElementById('user_patr').innerText=''
-            $('#modal_save_file').modal('hide')
+            if (data[0]===true) {
+                let link = document.createElement('a')
+                link.setAttribute('href', data[1])
+                link.setAttribute('download', '')
+                link.setAttribute('style', 'display:none')
+                link.click()
+                document.getElementById('user_name').innerText = ''
+                document.getElementById('user_surname').innerText = ''
+                document.getElementById('user_patr').innerText = ''
+                $('#modal_save_file').modal('hide')
+            }else {
+                document.getElementById('modal_title').innerText='Ошибка'
+                document.getElementById('modal_text').innerText=data[1]
+                $('#modal_id').modal('show')
+
+            }
         },
         error: function (data) {
             alert('error')
