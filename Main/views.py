@@ -74,8 +74,8 @@ def get_level_2(request):
         if dic[i.first_quest.id] != dic[i.second_quest.id]:
             print('fail #' + str(count_fail + 1))
             count_fail += 1
-    # if count_fail > 1:
-    #     return HttpResponse(json.dumps(False))
+    if count_fail > 1:
+        return HttpResponse(json.dumps(False))
     del dic[31]
     del dic[32]
     del dic[33]
