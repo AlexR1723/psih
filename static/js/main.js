@@ -9,7 +9,27 @@ var answers_level_3_num = [];
 var quest_number = 0;
 var count_questions = [0, 0, 0]
 var global_level = 0;
+
+function set_footer() {
+    let body = document.getElementsByTagName('body')[0].getBoundingClientRect().height
+    let wind = document.documentElement.clientHeight
+    if (wind > body) {
+        let footer = $('#main_footer:first')
+        if (footer) {
+            footer.addClass('absolute_footer');
+        }
+    }
+}
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     set_footer()
+// });
+// window.onload = function () {
+//
+// };
+
 window.onload = function () {
+    // set_footer()
     if (window.location.href.indexOf('start_test') !== -1) {
         // console.time('start')
         $.ajax({
@@ -201,13 +221,14 @@ function get_answer(value, check) {
 
 function show_result(text, is_fail = false) {
     stop_timer = true
-    document.getElementById('div_block_timer').remove()
+    // document.getElementById('div_block_timer').remove()
     document.getElementById('div_block_quest').remove()
+    document.getElementById('main_footer').remove()
 
 
     if (is_fail) {
         document.getElementById('id_result').innerText = text
-        document.getElementById('save_result').style.display = 'none'
+        document.getElementById('btn_save_file').style.display = 'none'
         document.getElementById('label_result').innerText = 'Тест не пройден :('
     } else {
         // if (text.length>1){
@@ -216,10 +237,11 @@ function show_result(text, is_fail = false) {
         // else {
         //
         // }
+        create_profs(text[2])
         document.getElementById('id_result').innerText = text[0]
         document.getElementById('save_result').dataset.conc = text[1]
         document.getElementById('save_result').dataset.time = min + '.' + sec
-        document.getElementById('save_result').style.display = 'inline-block'
+        document.getElementById('btn_save_file').style.display = 'inline-block'
     }
     document.getElementById('div_result').style.display = 'flex'
 
@@ -271,6 +293,22 @@ function set_quest(number, questions) {
     timeline.style.width = tlw + 'px'
     timeline.style.height = document.getElementById('div_timer').getBoundingClientRect().height + 'px'
 
+    // set_footer()
+    let h_quest = document.getElementById('div_quest').getBoundingClientRect().height
+    let h_foot = document.getElementById('main_footer').getBoundingClientRect().height
+    let h_wind = document.documentElement.clientHeight
+    let perc = h_wind * 0.05
+    let foot = document.getElementById('main_footer')
+    if (h_quest + h_foot + perc < h_wind) {
+        if (!foot.classList.contains('absolute_footer')) {
+            foot.classList.add('absolute_footer')
+        }
+    } else {
+        if (foot.classList.contains('absolute_footer')) {
+            foot.classList.remove('absolute_footer')
+        }
+        // document.getElementById('main_footer').classList.remove('absolute_footer')
+    }
 }
 
 var min = 0;
@@ -319,7 +357,7 @@ $('#save_result').click(function () {
             conc: conc
         },
         success: function (data) {
-            if (data[0]===true) {
+            if (data[0] === true) {
                 let link = document.createElement('a')
                 link.setAttribute('href', data[1])
                 link.setAttribute('download', '')
@@ -329,9 +367,9 @@ $('#save_result').click(function () {
                 document.getElementById('user_surname').innerText = ''
                 document.getElementById('user_patr').innerText = ''
                 $('#modal_save_file').modal('hide')
-            }else {
-                document.getElementById('modal_title').innerText='Ошибка'
-                document.getElementById('modal_text').innerText=data[1]
+            } else {
+                document.getElementById('modal_title').innerText = 'Ошибка'
+                document.getElementById('modal_text').innerText = data[1]
                 $('#modal_id').modal('show')
 
             }
@@ -342,3 +380,53 @@ $('#save_result').click(function () {
     })
 })
 
+function create_profs(data) {
+    let par_name = document.getElementById('list_prof_name')
+    let par_desc = document.getElementById('list_prof_desc')
+    for (let i = 0; i < data.length; i++) {
+        // let div = document.createElement('div')
+        // div.setAttribute('style','display:inline-block;margin:0 5px')
+        let p_name = document.createElement('button')
+        if (i<data.length-1){
+            p_name.innerText = data[i].name+','
+        }
+        else {
+            p_name.innerText = data[i].name+'.'
+        }
+        p_name.setAttribute('id', i.toString())
+        p_name.setAttribute('class', 'desc_prof')
+        // div.appendChild(p_name)
+        par_name.appendChild(p_name)
+
+        let p_desc = document.createElement('p')
+        p_desc.innerText = data[i].desc
+        p_desc.setAttribute('class', 'quest1 desc')
+        p_desc.setAttribute('id', 'desc_prof_desc_' + i.toString())
+        p_desc.setAttribute('style', 'display:none')
+        // div.appendChild(p_desc)
+        // parent.appendChild(div)
+        par_desc.appendChild(p_desc)
+    }
+}
+
+
+var showing_desc
+$(document).on('click', ".desc_prof", function () {
+    let id = this.id
+    let desc = '#desc_prof_desc_' + id
+    if (showing_desc !== desc) {
+        $(this).css('color','black')
+        document.getElementById('')
+        if (showing_desc) {
+            let d=showing_desc.split('_')
+            // document.getElementById(d[d.length-1]).setAttribute('style','color:#eaff3b')
+            // $(showing_desc).css('color','')
+            $(showing_desc).slideUp(500, function () {
+                $(desc).slideDown(500)
+            })
+        } else {
+            $(desc).slideDown(500)
+        }
+        showing_desc = desc
+    }
+})

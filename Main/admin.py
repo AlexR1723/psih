@@ -57,11 +57,37 @@ class QuestionLevel3Admin(admin.ModelAdmin):
 admin.site.register(QuestionLevel3, QuestionLevel3Admin)
 
 
+class ProfsAdmin(admin.TabularInline):
+    model = ConclusionsProfessions
+
+
 class ConclusionsAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Conclusions._meta.fields]
+    inlines = [ProfsAdmin]
 
     class Meta:
         model = Conclusions
 
 
 admin.site.register(Conclusions, ConclusionsAdmin)
+
+
+class ProfessionsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Professions._meta.fields]
+
+    class Meta:
+        model = Professions
+
+
+admin.site.register(Professions, ProfessionsAdmin)
+
+
+class TestingResultsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in TestingResults._meta.fields]
+    readonly_fields = ['conc','count']
+
+    class Meta:
+        model = TestingResults
+
+
+admin.site.register(TestingResults, TestingResultsAdmin)

@@ -74,8 +74,8 @@ def get_level_2(request):
         if dic[i.first_quest.id] != dic[i.second_quest.id]:
             print('fail #' + str(count_fail + 1))
             count_fail += 1
-    if count_fail > 1:
-        return HttpResponse(json.dumps(False))
+    # if count_fail > 1:
+    #     return HttpResponse(json.dumps(False))
     del dic[31]
     del dic[32]
     del dic[33]
@@ -155,8 +155,8 @@ def get_level_3(request):
             result.append(key)
 
     if len(result) == 1:
-        conclusion = get_conclusion(result[0])
-        return HttpResponse(json.dumps([True, conclusion]))
+        conclusion,conc_id,profs = get_conclusion(result[0])
+        return HttpResponse(json.dumps([True, [conclusion,conc_id,profs]]))
     else:
         quests = list(QuestionLevel3.objects.filter(area_id__in=result).values('area_id', 'text'))
         list_quest_3 = []
@@ -215,14 +215,14 @@ def get_result(request):
             result.append(key)
 
     if len(result) == 1:
-        conclusion, con = get_conclusion(result[0])
+        conclusion, con,profs = get_conclusion(result[0])
         # return HttpResponse(json.dumps([True, conclusion]))
     else:
-        conclusion, con = get_conclusion(result[0], result[1])
+        conclusion, con,profs = get_conclusion(result[0], result[1])
         if len(result) > 2:
             shit = CheckTable(date=datetime.datetime.now(), count=len(result))
             shit.save()
-    return HttpResponse(json.dumps([conclusion, con]))
+    return HttpResponse(json.dumps([conclusion, con,profs]))
 
 
 def get_conclusion(first, second=False):
@@ -236,7 +236,21 @@ def get_conclusion(first, second=False):
     else:
         conc = Conclusions.objects.filter(first_area=first)[0]
 
-    return conc.text, conc.id
+    try:
+        results = TestingResults.objects.get(conc_id=conc.id)
+        results.count = results.count + 1
+        results.save()
+    except:
+        res = TestingResults(conc_id=conc.id, count=1)
+        res.save()
+    profs=Professions.objects.filter(conclusionsprofessions__conc_id=conc.id)
+    pr=[]
+    for i in profs:
+        p={}
+        p['name']=i.name
+        p['desc']=i.text
+        pr.append(p)
+    return conc.text, conc.id, pr
 
 
 def get_file_result(request):

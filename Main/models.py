@@ -91,6 +91,14 @@ class Conclusions(models.Model):
         verbose_name = 'Вывод'
         verbose_name_plural = 'Выводы'
 
+    def __str__(self):
+        st = ''
+        if self.first_area:
+            st += self.first_area.text
+        if self.second_area:
+            st += ' и ' + self.second_area.text
+        return st
+
 
 class CheckTable(models.Model):
     date = models.DateTimeField(blank=True, null=True, verbose_name='Дата')
@@ -103,12 +111,51 @@ class CheckTable(models.Model):
         verbose_name_plural = 'Errors'
 
 
-class Results(models.Model):
-    file = models.FileField(blank=True, null=True)
+# class Results(models.Model):
+#     file = models.FileField(blank=True, null=True)
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'results'
+
+
+class Professions(models.Model):
+    name = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Наименование')
+    text = models.TextField(blank=True, null=True, verbose_name='Текст')
+
+    # conclusion = models.ForeignKey('Conclusions', models.DO_NOTHING, blank=True, null=True, verbose_name='Вывод')
 
     class Meta:
         managed = False
-        db_table = 'results'
+        db_table = 'professions'
+        verbose_name = 'Профессия'
+        verbose_name_plural = 'Профессии'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class ConclusionsProfessions(models.Model):
+    conc = models.ForeignKey('Conclusions', models.DO_NOTHING, blank=True, null=True, verbose_name='Вывод')
+    prof = models.ForeignKey('Professions', models.DO_NOTHING, blank=True, null=True, verbose_name='Профессия')
+
+    class Meta:
+        managed = False
+        db_table = 'conclusions_professions'
+        verbose_name = 'Профессия направления'
+        verbose_name_plural = 'Профессии направлений'
+
+
+class TestingResults(models.Model):
+    conc = models.ForeignKey('Conclusions', models.DO_NOTHING, blank=True, null=True, verbose_name='Заключение')
+    count = models.IntegerField(blank=True, null=True, verbose_name='Количество')
+
+    class Meta:
+        managed = False
+        db_table = 'testing_results'
+        verbose_name = 'Результат тестирования'
+        verbose_name_plural = 'Результаты тестирования'
 
 
 class AuthGroup(models.Model):

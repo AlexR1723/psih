@@ -1,16 +1,40 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
-    <div class="row justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center" id="div_quest">
         <div class="col-12 col-sm-11 col-md-11 col-lg-11 col-xl-10">
-            <div class="row justify-content-center" style="margin-top: 10%" id="div_block_quest">
+            <div class="row justify-content-center" style="padding-top: 5%" id="div_block_quest">
                 <div class="col-12 p-0 mb-3 mb-sm-5">
                     <p class="quest1" id="id_questions"></p>
                 </div>
                 <div class="col-12 p-0 text-center align-items-center" id="id_answers">
-                    {#                    <button class="ans1" data-res="">answer 1</button>#}
                 </div>
             </div>
+            <div class="row justify-content-center align-items-center" id="div_result"
+                 style="display: none;padding-top: 5%">
+                <div class="col-12 p-0 mb-3 mb-sm-5">
+                    <p class="quest1 text-center" style="font-size: 40px;margin: 5% 0" id="label_result">Результат</p>
+                    <p class="quest1" id="id_result">
+                    </p>
+                    <div id="list_prof_name">
+                    </div>
+                    <div id="list_prof_desc" class="mt-4">
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <a href="{% url 'Start_test' %}" style="text-decoration: none">
+                        <button class="main_button mt-0">Начать заново</button>
+                    </a>
+                    <button class="main_button mt-0" id="btn_save_file" data-toggle="modal"
+                            data-target="#modal_save_file">Сохранить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center" id="main_footer" style="">
+        <div class="col-12 col-sm-11 col-md-11 col-lg-11 col-xl-10">
             <div class="row align-items-center mt-3 mt-sm-5" style="position: relative;display:none"
                  id="div_block_timer">
                 <div id="timeline"></div>
@@ -24,28 +48,12 @@
                     <p class="" id="ptimer">00:00</p>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center" id="div_result"
-                 style="display: none;margin-top: 10%">
-                <div class="col-12 p-0 mb-3 mb-sm-5">
-                    <p class="quest1 my-5 text-center" style="font-size: 40px" id="label_result">Результат</p>
-                    <p class="quest1" id="id_result">
-
-                        Результаты теста показали, что вы близки к сфере материальных интересов. Люди этого направления
-                        обычно проявляют склонность к работе, связанной с обработкой и систематизацией информации,
-                        представленные в виде условных знаков, цифр, форм, текстов (ведение документации, установление
-                        количественных отношений). (Экономист, секретарь, бухгалтер, редактор, переводчик, лингвист,
-                        топограф).
-                    </p>
-                </div>
-                <div class="col-12 text-center">
-                    <a href="{% url 'Start_test' %}" style="text-decoration: none">
-                        <button class="main_button mt-0">Начать заново</button>
-                    </a>
-                    <button class="main_button mt-0" data-toggle="modal" data-target="#modal_save_file">Сохранить
-                    </button>
-                </div>
-            </div>
-
+            <p class="quest1" style="font-size: 16px;text-align: justify; margin-top: 30px;">
+                При прохождении теста постарайтесь не пользоваться средствами навигации браузера: «назад», «вперед»,
+                «обновить».Постарайтесь пройти тест за один подход; рекомендуемое время для прохождения теста - 35
+                минут. Не рекомендуется проходить тест при нестабильном интернет-соединении (например, мобильный
+                интернет в дороге).
+            </p>
         </div>
     </div>
 
@@ -63,13 +71,15 @@
                 <div class="modal-body">
                     <input type="text" class="border_black" placeholder="Имя" id="user_name">
                     <input type="text" class="border_black" placeholder="Фамилия" id="user_surname">
-                    <input type="text" class="border_black" placeholder="Отчество" id="user_patr">
-                    {#                    <textarea name="{{ book.slug }}" id="comment_text" rows="5"#}
-                    {#                              class="border_brown text_reg1 w-100 px-2 py-1"></textarea>#}
+                    <input type="text" class="border_black" placeholder="Отчество" id="user_patr">}
                 </div>
-                <div class="modal-footer">
-                    <button class="main_button mt-0" id="save_result" data-conc="" data-time="">Сохранить</button>
-                    <button class="main_button mt-0" data-dismiss="modal">Отмена</button>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <button class="main_button mt-0" id="save_result" data-conc="" data-time="">Сохранить</button>
+                    </div>
+                    <div class="col-auto">
+                        <button class="main_button mt-0" data-dismiss="modal">Отмена</button>
+                    </div>
                 </div>
             </div>
         </div>

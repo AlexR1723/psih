@@ -65,7 +65,7 @@ p {
     font-size: 25px;
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 541px) {
     .main_button {
         padding: 5px 20px;
     }
@@ -168,4 +168,26 @@ button:active, button:focus {
     padding: 5px 5px;
     font-weight: 500;
     margin: 5px 0;
+}
+.absolute_footer {
+    position: absolute;
+    width: 100%;
+    /*bottom: 0;*/
+    bottom: 5%;
+    /*bottom: 40px;*/
+}
+.desc_prof{
+    color: #eaff3b;
+    font-size: 20px;
+    font-family: shift,sans-serif;
+    cursor: pointer;
+    font-weight: 500;
+    background: none;
+    padding: 0;
+    border: none;
+    margin:0 5px;
+}
+.desc_prof:hover{
+    color: #580606;
+    text-decoration: underline;
 }
